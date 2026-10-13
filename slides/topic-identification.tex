@@ -1,0 +1,224 @@
+% One cover + three content slides. Content numbering starts at 1 after the cover.
+\documentclass[10pt,t,aspectratio=169]{beamer}
+\usepackage{fontspec}
+% Latin Modern Sans is the font used by the original FRC sample (lmodern).
+% Load its OpenType files explicitly to preserve Vietnamese names with XeLaTeX.
+\setsansfont{lmsans10}[
+  Extension=.otf,
+  UprightFont=*-regular,
+  BoldFont=*-bold,
+  ItalicFont=*-oblique,
+  BoldItalicFont=*-boldoblique
+]
+\usefonttheme{professionalfonts}
+\usepackage{etoolbox}
+
+% Set margins before loading the original FRC theme.
+\def\slideContentLeftMargin{0.65cm}
+\def\slideContentRightMargin{0.65cm}
+\def\hustHeaderHeight{1.12cm}
+\def\slideContentTopPadding{0cm}
+\usepackage[red,169]{beamerthemeHUST}
+\usetikzlibrary{arrows.meta,positioning}
+\input{metadata}
+
+\definecolor{ink}{HTML}{252B33}
+\definecolor{muted}{HTML}{59616B}
+\setbeamercolor{normal text}{fg=ink,bg=white}
+\setbeamercolor{structure}{fg=hustprimary}
+\setbeamercolor{block title}{fg=hustprimary,bg=white}
+\setbeamercolor{block body}{fg=ink,bg=white}
+\setbeamerfont{frametitle}{size=\large,series=\mdseries}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{itemize item}{\small\textbullet}
+\setbeamertemplate{navigation symbols}{}
+\setlength{\parskip}{0.15em}
+% Compact headings leave room above the footer artwork at a readable font size.
+\newenvironment{topicblock}[1]{%
+  \par\vspace{0.12cm}%
+  {\normalsize\bfseries\color{hustprimary}#1}\par\vspace{-0.08cm}%
+}{\par}
+
+% Keep the original title layout and artwork; translate its one fixed label.
+\patchcmd{\husttitlepage}{Người thực hiện:}{Project team:}{}{%
+  \PackageError{EnglishConnect}{Could not translate the theme's author label}{%
+    Check beamerthemeHUST.sty against the supplied FRC theme.}}
+\patchcmd{\drawHustPageNum}{\insertpagenumber}{\insertframenumber}{}{%
+  \PackageError{EnglishConnect}{Could not set content slide numbering}{%
+    Check the page-number macro in beamerthemeHUST.sty.}}
+\renewcommand{\titlePageTitleX}{-0.3cm}
+\renewcommand{\titlePageTitleY}{-0.25cm}
+\renewcommand{\hustTitleAlign}{\alignLeft}
+\renewcommand{\hustSubtitleAlign}{\alignLeft}
+\renewcommand{\hustAuthorAlign}{\alignLeft}
+\renewcommand{\hustInstAlign}{\alignLeft}
+
+\title{\ProjectName}
+\subtitle{\texorpdfstring{%
+  {\normalsize\ProjectSubtitle}\\[0.15em]
+ %
+}{A Collaborative English-Learning Application | Topic Identification}}
+\author{\texorpdfstring{%
+  \MemberOne{} - \MemberOneID\\[0.12em]
+  \MemberTwo{} - \MemberTwoID\\[0.12em]
+  \MemberThree{} - \MemberThreeID
+}{Đoàn Trọng Hoà, Trương Minh Hằng, Lê Vũ Bảo Châu}}
+\institute{\vspace{0.3cm}\color{black}\small\normalfont\textbf{Lecturer:} \LecturerTitle{} \LecturerName}
+\hypersetup{
+  pdftitle={EnglishConnect - Topic Identification},
+  pdfsubject={Network Programming project proposal},
+  pdfauthor={Đoàn Trọng Hoà; Trương Minh Hằng; Lê Vũ Bảo Châu},
+  pdfkeywords={Java, English learning, sockets, HUST, topic identification}
+}
+
+\begin{document}
+
+% Cover / Topic, lecturer and team; excluded from the three content slides.
+\husttitlepage
+\resetPageCount
+\showPageNumber
+
+% The supplied red 16:9 content-logo background with a thin header.
+\useThinBar
+\useStyleLogoOnly
+
+% 1 / Motivation, intended users and learning context.
+\begin{frame}{1. Motivation, objectives and users}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{Learning needs}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.35em}
+          \setlength{\parsep}{0pt}
+          \item Find material suited to a learner's level and interests.
+          \item Practise reading, listening, writing and speaking in one place.
+          \item Receive feedback and opportunities to communicate in English.
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{Intended users}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.35em}
+          \setlength{\parsep}{0pt}
+          \item \textbf{Learners:} study, practise and review their results.
+          \item \textbf{Teachers:} create quizzes, assess submissions and guide learners.
+          \item \textbf{Admins:} approve accounts and maintain game content.
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.18cm}
+  {\color{hustprimary!30}\rule{\textwidth}{0.4pt}}\par
+  \vspace{0.1cm}
+  {\small\textbf{Level selection:} Elementary / Intermediate / Advanced}\par
+  {\small\textbf{Initial topics:} Daily Life / Travel / Work \& Study}\par
+\end{frame}
+
+% 2 / Functional scope, including teacher and admin authoring capabilities.
+\begin{frame}{2. Proposed features and learning workflow}
+
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{01\quad Study at the right level}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.2em}
+          \setlength{\parsep}{0pt}
+          \item Browse lessons by topic and proficiency level.
+          \item Watch videos, listen to audio and read texts with vocabulary and grammar.
+        \end{itemize}
+      \end{topicblock}
+      \vspace{0.08cm}
+      \begin{topicblock}{02\quad Practise and get feedback}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.2em}
+          \setlength{\parsep}{0pt}
+          \item \textbf{Quizzes:} multiple choice, gap filling and sentence ordering.
+          \item \textbf{Exercises:} sentence rewriting, paragraph writing and recorded speaking.
+          \item Automatic scores for objective tasks; teacher feedback for writing and speaking.
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{03\quad Play and communicate}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.2em}
+          \setlength{\parsep}{0pt}
+          \item \textbf{Games:} word/picture matching, sentence ordering and image puzzles.
+          \item Private chat and real-time voice calls with other learners or teachers.
+        \end{itemize}
+      \end{topicblock}
+      \vspace{0.08cm}
+      \begin{topicblock}{04\quad Create and manage content}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.2em}
+          \setlength{\parsep}{0pt}
+          \item \textbf{Teachers:} create and publish multiple-choice quizzes, then grade submissions.
+          \item \textbf{Admins:} approve registrations and publish new word-matching or sentence-ordering games.
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 3 / Feasibility and course alignment; detailed protocol comes at design review.
+\begin{frame}{3. Architecture and networking approach}
+
+  \centering
+  \begin{tikzpicture}[
+    box/.style={draw=hustprimary!65,fill=hustprimary!4,rounded corners=3pt,
+      line width=0.7pt,minimum height=1.65cm,text width=3.7cm,
+      align=center,inner sep=7pt,font=\small},
+    link/.style={<->,>=Stealth,line width=0.85pt,draw=hustprimary},
+    label/.style={font=\scriptsize,align=center,text=ink}
+  ]
+    \node[box] (client) at (0,0) {\textbf{JavaFX clients}\\[0.18em]
+      Learners / Teachers\\Admins};
+    \node[box] (server) at (10.2,0) {\textbf{Java server}\\[0.18em]
+      Learning \& assessment\\Chat, voice and storage};
+    \draw[link] ([yshift=0.35cm]client.east) --
+      node[label,above=2pt]{\textbf{TCP --- ELP/1}\\Accounts, lessons, files and chat}
+      ([yshift=0.35cm]server.west);
+    \draw[link] ([yshift=-0.35cm]client.east) --
+      node[label,below=2pt]{\textbf{UDP}\\Real-time voice packets}
+      ([yshift=-0.35cm]server.west);
+  \end{tikzpicture}\par
+  \raggedright
+  \vspace{0.05cm}
+
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{Our application protocol: ELP/1}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.22em}
+          \setlength{\parsep}{0pt}
+          \item Length-prefixed JSON messages over TCP
+          \item Requests, responses and server-pushed events
+          \item Team-defined commands and session states
+          \item UDP voice packets carry sequence numbers and audio samples
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{topicblock}{Socket handling and reliability}
+        \small
+        \begin{itemize}
+          \setlength{\itemsep}{0.22em}
+          \setlength{\parsep}{0pt}
+          \item Standard JDK socket APIs
+          \item Multiple clients, partial reads/writes, timeouts and disconnects
+          \item Server logs every sent and received message
+        \end{itemize}
+      \end{topicblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+\end{document}
